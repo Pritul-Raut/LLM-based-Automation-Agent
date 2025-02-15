@@ -1,7 +1,5 @@
 # Project  - LLM-based Automation Agent
 
-This project is due on 15 Feb 2025 EoD IST. Results will be announced by 25 Feb 2025.
-
 For questions, [use this Discourse thread](https://discourse.onlinedegree.iitm.ac.in/t/project-1-llm-based-automation-agent-discussion-thread-tds-jan-2025/164277).
 
 ## Background
