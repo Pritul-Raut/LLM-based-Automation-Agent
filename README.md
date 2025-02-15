@@ -1,13 +1,5 @@
 # Project  - LLM-based Automation Agent
 
-## Background
-
-You have joined the operations team at **DataWorks Solutions**, a company that processes large volumes of log files, reports, and code artifacts to generate actionable insights for internal stakeholders. In order to improve operational efficiency and consistency, the company has mandated that routine tasks be automated and integrated into their Continuous Integration (CI) pipeline.
-
-Due to the unpredictable nature of incoming data (from logs, ticket systems, source code, surveys, etc.) the team has decided to use a Large Language Model (LLM) as an intermediate transformer. In this role, the LLM will perform small, reasonably deterministic tasks.
-
-Your assignment is to build an automation agent that accepts plain‑English tasks, carries out the required (multi‑step) process leveraging an LLM where required. The finished processing artifacts must be exactly verifiable against pre‑computed expected results.
-
 ## Create an API
 
 Write an application that exposes an API with the following endpoints:
@@ -69,50 +61,4 @@ The DataWorks business team has listed _broad_ additional tasks for automation. 
 
 Your agent must handle these tasks as well.
 
-The business team has _not_ promised to limit themselves to these tasks. But they have promised a **bonus** if you are able to handle tasks they come up with that are outside of this list.
 
-## Deliverables
-
-- [Create a new _public_ GitHub repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository)
-- [Add an MIT `LICENSE` file](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/adding-a-license-to-a-repository)
-- Write and test your code. Call `POST /run?task=...` with a few tasks and check if `GET /read?path=...` creates the correct files.
-- Commit and push your code
-- Create a [Dockerfile](https://docs.docker.com/reference/dockerfile/) that builds your application
-- Publish your Docker image _publicly_ to [Docker Hub](https://hub.docker.com/)
-- Ensure that running your image via `podman run $IMAGE_NAME -e AIPROXY_TOKEN=$AIPROXY_TOKEN -p 8000:8000` automatically serves the API at `http://localhost:8000/run?task=...` and `http://localhost:8000/read?path=...`
-- [Submit in this Google Form](https://docs.google.com/forms/d/e/1FAIpQLSdOaljgV-INdbKrPotV9OMUKV01QVaFEfcnr5dAxBZqM4x37g/viewform?usp=dialog)
-  the URL of your GitHub repository (`https://github.com/user-name/repo-name`) and your Docker image name (`user-name/repo-name`)
-
-Note:
-
-- **Use the `AIPROXY_TOKEN` environment variable**. DON'T commit your AI Proxy token to your repository. Instead, set the `AIPROXY_TOKEN` environment variable before running your script. Use `os.environ["AIPROXY_TOKEN"]` as the token in your script.
-- **Use your AI Proxy token**. Your [AI Proxy token](https://aiproxy.sanand.workers.dev/) now has a $1 limit. You may use it. If you run out of tokens, ask the TDS team for more. (But try and avoid that.)
-- **Stick to GPT-4o-Mini**. This is the only generation model that AI Proxy currently supports. When this page says "LLM", it means GPT-4o-Mini.
-- **Keep your prompts short and concise**. Each call to `/run` and `/read` must complete within 20 seconds.
-
-## Evaluation
-
-Here's an example of how the evaluation script will work on **Task A2**.
-
-1. Run `podman run $IMAGE_NAME -e AIPROXY_TOKEN=$AIPROXY_TOKEN -p 8000:8000`
-2. Call `POST https://localhost:8000/run?task=Format+/data/format.md+with+prettier+3.4.2`. Ensure that the respose is a HTTP 200.
-   - Note: The task may be worded differently. It may use a different prettier version. But the broad task is the same.
-3. Call `GET https://localhost:8000/read?path=/data/format.md` and get the revised file contents.
-4. Verify that the response was formatted using `prettier@3.4.2`.
-
-Here's how we will score the results.
-
-- **Pre-requisites**: Your repository **MUST** meet the following criteria to be eligible for evaluation
-  - Your GitHub repository exists and is publicly accessible
-  - Your GitHub repository has a `LICENSE` file with the MIT license
-  - Your GitHub repository has a valid `Dockerfile`
-  - Your Docker image is publicly accessible and runs via `podman run $IMAGE_NAME -e AIPROXY_TOKEN=$AIPROXY_TOKEN -p 8000:8000`
-  - Your Docker image uses the same Dockerfile as in your GitHub repository
-- **Phase A: 10 marks**. 1 mark for each Phase A task that the agent handles correctly.
-  - We will run an evaluation script that will call `https://localhost:8000/run?task=...` on the task and call `https://localhost:8000/read?path=...` to verify the output
-- **Phase B: 10 marks**. 1 mark for each Phase B task that the agent handles correctly.
-  - The evaluation script will call `https://localhost:8000/run?task=...` on the task and call `https://localhost:8000/read?path=...` to verify the output
-- **Bonus: Additional tasks**. We _may_ pass additional tasks beyond the list above. If your code handles them correctly, you get 1 bonus mark per task.
-- **Bonus: Code diversity**. You're encouraged to copy code and learn from each other. We encourage diversity too. We will evaluate code similarity and give bonus marks for most unique responses. (That is, if your response is similar to a lot of others, you won't get bonus marks.)
-
-Your score will be the sum of the marks above. No normalization, i.e. whether it's 0/20 or 22/20, what you get is what you get.
