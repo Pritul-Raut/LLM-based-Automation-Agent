@@ -62,10 +62,11 @@ async def start():
 
 @app.get("/read")
 async def read_file(path: str):
-    #path=os.path.join(os.getcwd(), path)
+    
     print(path)
     if not path:
         raise HTTPException(status_code=400, detail="File path is required")
+    path=os.path.join(os.getcwd(), path)
 
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="File not found")
